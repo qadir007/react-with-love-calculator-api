@@ -5,21 +5,22 @@ import Result from './Result'
 class Form extends Component{
     constructor(){
         super()
-        this.state = {firstPerson: "", secondPerson:"", result:{}}
+        this.state = {firstPerson: "", secondPerson:"",tag:"", result:{}}
         this.formSubmit = this.formSubmit.bind(this)
         this.handleInput = this.handleInput.bind(this)
     }
 
     formSubmit(event) {
-        fetch(`https://love-calculator.p.rapidapi.com/getPercentage?fname=${this.state.firstPerson}&sname=${this.state.secondPerson}`, {
+        fetch(`https://adult-movie-provider.p.rapidapi.com/api/video/FindVideo?keyword=${this.state.tag}&offset=0&next=10`, {
             "method": "GET",
             "headers": {
                 "x-rapidapi-key": "4a6a62fd82msha81718d72bd9741p15c630jsn02024f4b11a5",
-                "x-rapidapi-host": "love-calculator.p.rapidapi.com"
+                "x-rapidapi-host": "adult-movie-provider.p.rapidapi.com"
             }
         })
         .then(response => response.json()
         ).then(result => {
+            let thumbs = result.thumbs(el => <img src={el} alt="none"></img>)
             this.setState({firstPerson: "", secondPerson:"", result:result})
         })
         .catch(err => {
@@ -56,7 +57,7 @@ class Form extends Component{
                     </div>
                 </div>
             </div> 
-            { Object.keys(this.state.result).length > 0 && < Result data={this.state.result} />} 
+            { Object.keys(this.state.result).length > 0 && < Result data={this.state} />} 
         </div>
         )
     }
